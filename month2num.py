@@ -18,7 +18,7 @@ def main(argv):
             print('Usage:\n'
                   'this script needs to be run within the directory\n'
                   'month2num.py -i <inputfile> [-i<inputfile>] \n'
-                  'or mergepdfs.py -d <inputdirectory> ')
+                  'or month2num.py -d <inputdirectory> ')
             sys.exit()
         elif opt in ("-i", "--ifile"):
             inputfiles.append(arg)
@@ -36,8 +36,11 @@ def main(argv):
     print(str(files_list))
 
     for pdf in files_list:
-        print("file: " + str(pdf))
-        rename(str(pdf), replace_month_with_number(str(pdf)))
+        new_filename = replace_month_with_number(str(pdf))
+        if str(pdf) != new_filename:
+            print("file: " + str(pdf))
+            print("renamed to: " + new_filename)
+            rename(str(pdf), new_filename)
 
 
 def replace_month_with_number(string):
@@ -45,8 +48,8 @@ def replace_month_with_number(string):
                   'November', 'December']
 
     for i in range(len(month_list)):
-        string = string.replace(month_list[i], i)
-        return string
+        string = string.replace(month_list[i], str(i+1).zfill(2))
+    return string
     # string = string.replace('January', '01')
     # string = string.replace('February', '02')
     # string = string.replace('March', '03')
